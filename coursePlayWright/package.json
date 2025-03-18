@@ -1,0 +1,20 @@
+{
+  "name": "courseplaywrigth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.10"
+  },
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "types": ["node", "playwright"]
+    }
+}
