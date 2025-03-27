@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { ProductPage } from '../pages/ProductPage';
+import { Navigation } from '../pages/Navigation';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
+  const navigation = new Navigation(page);
 
   await productPage.visit();
 
@@ -12,8 +14,8 @@ test('New User Full Journey', async ({ page }) => {
 
   await page.pause();
 
-  await productPage.getBasketCount();
-  expect(await productPage.getBasketCount()).toBe(3);
+  await navigation.getBasketCount();
+  expect(await navigation.getBasketCount()).toBe(3);
 });
 
 // test('Basket counter', async ({ page }) => {
