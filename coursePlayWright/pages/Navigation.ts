@@ -5,6 +5,7 @@ export class Navigation {
     private homeButton: Locator;
     private basketButton: Locator;
     private basketCounter: Locator;
+    private checkoutLink: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,8 +18,9 @@ export class Navigation {
         this.basketCounter = page.locator(
           `[data-qa="header-basket-count"]`
         );
+        this.checkoutLink = page.getByRole('link', { name: 'Checkout' });
     }
-
+ 
     visit = async (): Promise<void> => {
         await this.page.goto('/');
     };
@@ -33,9 +35,16 @@ export class Navigation {
         await this.homeButton.click();
     };
 
-    goToBasket = async (): Promise<void> => {
+    goToBasket = async (): Promise<void> => { 
         await this.basketButton.waitFor();
         await this.basketButton.click();
     };  
+
+    goToCheckout = async (): Promise<void> => {
+        const checkoutLink = this.checkoutLink;
+        await checkoutLink.waitFor();
+        await checkoutLink.click();
+        await this.page.waitForURL('/basket');
+    }   
 
 }

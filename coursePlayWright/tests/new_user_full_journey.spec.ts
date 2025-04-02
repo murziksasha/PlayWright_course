@@ -12,10 +12,10 @@ test('New User Full Journey', async ({ page }) => {
   await productPage.productToBusket(1);
   await productPage.productToBusket(2);
 
-  await page.pause();
-
   await navigation.getBasketCount();
   expect(await navigation.getBasketCount()).toBe(3);
+
+  await navigation.goToCheckout();
 });
 
 // test('Basket counter', async ({ page }) => {
