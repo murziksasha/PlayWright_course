@@ -6,6 +6,7 @@ export class ProductPage {
   private page: Page;
   private addToCartButtons: Locator;
   private sortDropdown: Locator;
+  private productTitle: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,7 +14,7 @@ export class ProductPage {
       `[data-qa="product-button"]`
     );
     this.sortDropdown = page.locator(`[data-qa="sort-dropdown"]`);
-
+    this.productTitle = page.locator(`[data-qa="product-title"]`);
   }
 
   visit = async (): Promise<void> => {
@@ -36,7 +37,14 @@ export class ProductPage {
 
   sortByCheapest = async (): Promise<void> => {
     await this.sortDropdown.waitFor();
+    //get order of products before sorting
+    const productTitlesBeforeSorting = await this.productTitle.allTextContents();
     await this.sortDropdown.selectOption("price-asc");
-
+    //get order of products after sorting
+    const productTitlesAfterSorting = await this.productTitle.allTextContents();
+    expect(productTitlesBeforeSorting).not.toEqual(productTitlesAfterSorting);
+    await this.page.pause();
   };
+
+
 }
