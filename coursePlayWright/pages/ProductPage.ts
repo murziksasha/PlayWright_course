@@ -5,12 +5,15 @@ import { Navigation } from './Navigation';
 export class ProductPage {
   private page: Page;
   private addToCartButtons: Locator;
+  private sortDropdown: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.addToCartButtons = page.locator(
       `[data-qa="product-button"]`
     );
+    this.sortDropdown = page.locator(`[data-qa="sort-dropdown"]`);
+
   }
 
   visit = async (): Promise<void> => {
@@ -29,5 +32,11 @@ export class ProductPage {
     expect(basketCountAfterAdding).toBeGreaterThan(
       basketCountBeforeAdding
     );
+  };
+
+  sortByCheapest = async (): Promise<void> => {
+    await this.sortDropdown.waitFor();
+    await this.sortDropdown.selectOption("price-asc");
+
   };
 }

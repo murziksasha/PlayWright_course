@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class Checkout {
   private page: Page;
@@ -21,11 +21,23 @@ export class Checkout {
 
   removeCheapestProduct = async (): Promise<void> => {
     await this.basketItemCards.first().waitFor();
-    await this.basketItemPrice.first().waitFor();
+    const itemsBeforeRemove = await this.basketItemCards.count();
+
+    console.log('Items before remove: ', itemsBeforeRemove);
+
     const prices = await this.basketItemPrice.allTextContents();
     const priceClearWithoutSign = prices.map((price) => +price.replace('$', '').trim());
     const minPriceCardIndex = priceClearWithoutSign.indexOf(Math.min(...priceClearWithoutSign));
-    await this.basketItemCards.nth(minPriceCardIndex).waitFor();
+    const specificRemoveButton = this.basketRemoveButton.nth(minPriceCardIndex);
+    await specificRemoveButton.waitFor();
+    await specificRemoveButton.click();
+    await this.page.waitForTimeout(1000);
+    const itemsAfterRemove = await this.basketItemCards.count();
+
+    console.log('Items after remove: ', itemsAfterRemove);
+
+    expect(itemsAfterRemove).toBeLessThan(itemsBeforeRemove);
+    expect(itemsAfterRemove).toEqual(itemsBeforeRemove - 1);
 
 
     await this.page.pause()

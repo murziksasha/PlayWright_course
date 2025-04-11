@@ -9,6 +9,7 @@ test('New User Full Journey', async ({ page }) => {
   const checkout = new Checkout(page);
 
   await productPage.visit();
+  await productPage.sortByCheapest();
 
   await productPage.productToBusket(0);
   await productPage.productToBusket(1);
