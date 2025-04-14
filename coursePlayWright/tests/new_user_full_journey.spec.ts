@@ -2,11 +2,13 @@ import { test, expect } from '@playwright/test';
 import { ProductPage } from '../pages/ProductPage';
 import { Navigation } from '../pages/Navigation';
 import { Checkout } from '../pages/Checkout';
+import { SignUp } from '../pages/SignUp';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
   const navigation = new Navigation(page);
   const checkout = new Checkout(page);
+  const login = new SignUp(page);
 
   await productPage.visit();
   await productPage.sortByCheapest();
@@ -20,11 +22,8 @@ test('New User Full Journey', async ({ page }) => {
 
   await navigation.goToCheckout();
   await checkout.removeCheapestProduct();
+  await checkout.continuToCheckout();
+
+  await login.visitSignUp();
 
 });
-
-// test('Basket counter', async ({ page }) => {
-//   const productPage = new ProductPage(page);
-//   await productPage.getBasketCount();
-//   expect(await productPage.getBasketCount()).toBe(3);
-// });

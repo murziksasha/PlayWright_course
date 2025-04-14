@@ -5,12 +5,14 @@ export class Checkout {
   private basketItemPrice: Locator;
   private basketItemCards: Locator;
   private basketRemoveButton: Locator;
+  private checkoutButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.basketItemPrice = page.locator('[data-qa="basket-item-price"]');
     this.basketItemCards = page.locator('[data-qa="basket-card"]');
     this.basketRemoveButton = page.locator('[data-qa="basket-card-remove-item"]');
+    this.checkoutButton = page.locator('[data-qa="continue-to-checkout"]');
 
   }
 
@@ -39,7 +41,13 @@ export class Checkout {
     expect(itemsAfterRemove).toBeLessThan(itemsBeforeRemove);
     expect(itemsAfterRemove).toEqual(itemsBeforeRemove - 1);
 
-
-    await this.page.pause()
   }
+
+  continuToCheckout = async (): Promise<void> => {
+    await this.checkoutButton.waitFor();
+    await this.checkoutButton.click();
+    await this.page.waitForURL(/\/login/);
+    await this.page.waitForTimeout(3000); 
+  }
+
 }
