@@ -43,7 +43,6 @@ export class ProductPage {
     //get order of products after sorting
     const productTitlesAfterSorting = await this.productTitle.allTextContents();
     expect(productTitlesBeforeSorting).not.toEqual(productTitlesAfterSorting);
-    await this.page.pause();
   };
 
 
