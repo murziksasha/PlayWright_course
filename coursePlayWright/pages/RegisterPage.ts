@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import {v4 as uuid} from 'uuid';
 
 export class RegisterPage {
   private page: Page;
@@ -14,15 +15,12 @@ export class RegisterPage {
 
   }
 
-  signUpAsNewUser = async (): Promise<void> => {
-    await this.page.pause();
+  signUpAsNewUser = async (email: string, password: string): Promise<void> => {
     await this.emailInput.waitFor({ state: 'visible' });
-    await this.emailInput.fill('fishka')
-    await this.passwordInput.waitFor({ state: 'visible' });
-    await this.passwordInput.fill('12345678');
+    await this.emailInput.fill(email)
+    await this.passwordInput.waitFor({ state: 'visible' }); 
+    await this.passwordInput.fill(password)
     await this.registerButton.click();
-    await this.page.pause();
-    
   }
  
 

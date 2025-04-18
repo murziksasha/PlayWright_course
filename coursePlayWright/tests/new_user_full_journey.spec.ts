@@ -4,6 +4,7 @@ import { Navigation } from '../pages/Navigation';
 import { Checkout } from '../pages/Checkout';
 import { SignUp } from '../pages/SignUp';
 import { RegisterPage } from '../pages/RegisterPage';
+import { v4 as uuid } from 'uuid';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -27,6 +28,13 @@ test('New User Full Journey', async ({ page }) => {
   await checkout.continuToCheckout();
 
   await login.visitSignUp();
-  await register.signUpAsNewUser()
 
+  let email =
+    'some email' + Math.floor(Math.random() * 1000) + '@example.com';
+  let password = uuid();
+  await register.signUpAsNewUser(
+    (email),
+    (password)
+  );
+  await page.pause();
 });
