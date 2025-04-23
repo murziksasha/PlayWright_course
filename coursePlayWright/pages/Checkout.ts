@@ -46,8 +46,6 @@ export class Checkout {
   continuToCheckout = async (): Promise<void> => {
     await this.checkoutButton.waitFor();
     await this.checkoutButton.click();
-    await this.page.waitForURL(/\/login/);
-    await this.page.waitForTimeout(3000); 
   }
 
 }

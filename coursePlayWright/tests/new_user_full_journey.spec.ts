@@ -3,15 +3,30 @@ import { ProductPage } from '../pages/ProductPage';
 import { Navigation } from '../pages/Navigation';
 import { Checkout } from '../pages/Checkout';
 import { SignUp } from '../pages/SignUp';
-import { RegisterPage } from '../pages/RegisterPage';
 import { v4 as uuid } from 'uuid';
+import { SignIn } from '../pages/SignIn';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
   const navigation = new Navigation(page);
   const checkout = new Checkout(page);
-  const login = new SignUp(page);
-  const register = new RegisterPage(page);
+  const signUp = new SignUp(page);
+  const signIn = new SignIn(page);
+
+  // await page.pause();
+
+  await page.goto('/');
+  await page.waitForTimeout(1000);
+
+  await signUp.visitSignUp();
+
+  let email =
+    'some_email' + Math.floor(Math.random() * 1000) + '@example.com';
+  let password = uuid();
+  await signUp.signUpAsNewUser(
+    (email),
+    (password)
+  );
 
   await productPage.visit();
   await productPage.sortByCheapest();
@@ -25,16 +40,13 @@ test('New User Full Journey', async ({ page }) => {
 
   await navigation.goToCheckout();
   await checkout.removeCheapestProduct();
+
+
   await checkout.continuToCheckout();
+  await signIn.login(email, password);
+  await page.waitForTimeout(1000);
 
-  await login.visitSignUp();
-
-  let email =
-    'some email' + Math.floor(Math.random() * 1000) + '@example.com';
-  let password = uuid();
-  await register.signUpAsNewUser(
-    (email),
-    (password)
-  );
   await page.pause();
+
+
 });
