@@ -5,6 +5,7 @@ import { Checkout } from '../pages/Checkout';
 import { SignUp } from '../pages/SignUp';
 import { v4 as uuid } from 'uuid';
 import { SignIn } from '../pages/SignIn';
+import { DeliveryDetails } from '../pages/DeliveryDetails';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -12,6 +13,7 @@ test('New User Full Journey', async ({ page }) => {
   const checkout = new Checkout(page);
   const signUp = new SignUp(page);
   const signIn = new SignIn(page);
+  const deliveryDetails = new DeliveryDetails(page);
 
   // await page.pause();
 
@@ -47,6 +49,16 @@ test('New User Full Journey', async ({ page }) => {
   await page.waitForTimeout(1000);
 
   await page.pause();
+  await deliveryDetails.fillAddressForm(
+    'John',
+    'Doe',
+    '123 Main St',
+    '12345',
+    'New York',
+    'Ukraine'
+  );
+  await page.pause();
+
 
 
 });
