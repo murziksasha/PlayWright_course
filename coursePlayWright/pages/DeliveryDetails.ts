@@ -1,6 +1,6 @@
 import { Page, Locator } from 'playwright';
-import { expect } from '@playwright/test';
-import { Navigation } from './Navigation';
+import {IUserAddressData} from '../data/userAddressData';
+
 
 export class DeliveryDetails {
   private page: Page;
@@ -27,14 +27,7 @@ export class DeliveryDetails {
     this.countryInput = page.locator('[data-qa="country-dropdown"]');
   }
 
-  fillAddressForm = async (
-    firstName: string,
-    lastName: string,
-    street: string,
-    postcode: string,
-    city: string,
-    country: string
-  ): Promise<void> => {
+  fillAddressForm = async ({firstName, lastName, street, postcode, city, country}: IUserAddressData): Promise<void> => {
     await this.firstNameInput.fill(firstName);
     await this.lastNameInput.fill(lastName);
     await this.streetInput.fill(street);
