@@ -45,6 +45,7 @@ test('New User Full Journey', async ({ page }) => {
 
 
   await checkout.continuToCheckout();
+  await page.waitForTimeout(1000);
   await signIn.login(email, password);
   await page.waitForTimeout(1000);
 
@@ -57,7 +58,9 @@ test('New User Full Journey', async ({ page }) => {
     'New York',
     'Ukraine'
   );
+  await page.waitForTimeout(1000);
   await page.pause();
+  
 
 
 
