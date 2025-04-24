@@ -55,7 +55,10 @@ test('New User Full Journey', async ({ page }) => {
   await deliveryDetails.fillAddressForm(userAddressData)
   await page.waitForTimeout(1000);
   await deliveryDetails.saveDetails();
-  
+  await deliveryDetails.continueToPayment();
+
+  await page.pause();
+
 
 
 
