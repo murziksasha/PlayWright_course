@@ -1,6 +1,7 @@
 import { Page, Locator } from 'playwright';
+import {IUserAddressData} from '../data/userAddressData';
 import { expect } from '@playwright/test';
-import { Navigation } from './Navigation';
+
 
 export class DeliveryDetails {
   private page: Page;
@@ -33,15 +34,8 @@ export class DeliveryDetails {
     this.continuePaymentButton = page.getByRole('button', { name: 'Continue to payment' })
   }
 
-  fillAddressForm = async (
-    firstName: string,
-    lastName: string,
-    street: string,
-    postcode: string,
-    city: string,
-    country: string
-  ): Promise<void> => {
-    await this.firstNameInput.waitFor({ state: 'visible' });
+
+  fillAddressForm = async ({firstName, lastName, street, postcode, city, country}: IUserAddressData): Promise<void> => {
     await this.firstNameInput.fill(firstName);
     await this.lastNameInput.waitFor({ state: 'visible' });
     await this.lastNameInput.fill(lastName);
@@ -54,9 +48,6 @@ export class DeliveryDetails {
     await this.countryInput.waitFor({ state: 'visible' });
     await this.countryInput.selectOption(country);
   };
-
-
-
 
 
 

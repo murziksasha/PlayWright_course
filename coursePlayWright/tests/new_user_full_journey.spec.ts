@@ -6,6 +6,7 @@ import { SignUp } from '../pages/SignUp';
 import { v4 as uuid } from 'uuid';
 import { SignIn } from '../pages/SignIn';
 import { DeliveryDetails } from '../pages/DeliveryDetails';
+import {userAddressData, IUserAddressData} from '../data/userAddressData';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -50,14 +51,8 @@ test('New User Full Journey', async ({ page }) => {
   await page.waitForTimeout(1000);
 
 
-  await deliveryDetails.fillAddressForm(
-    'John',
-    'Doe',
-    '123 Main St',
-    '12345',
-    'New York',
-    'Ukraine'
-  );
+
+  await deliveryDetails.fillAddressForm(userAddressData)
   await page.waitForTimeout(1000);
   await deliveryDetails.saveDetails();
   
