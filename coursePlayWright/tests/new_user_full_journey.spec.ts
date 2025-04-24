@@ -49,7 +49,7 @@ test('New User Full Journey', async ({ page }) => {
   await signIn.login(email, password);
   await page.waitForTimeout(1000);
 
-  await page.pause();
+
   await deliveryDetails.fillAddressForm(
     'John',
     'Doe',
@@ -59,7 +59,7 @@ test('New User Full Journey', async ({ page }) => {
     'Ukraine'
   );
   await page.waitForTimeout(1000);
-  await page.pause();
+  await deliveryDetails.saveDetails();
   
 
 
