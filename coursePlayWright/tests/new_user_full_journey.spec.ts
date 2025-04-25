@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { SignIn } from '../pages/SignIn';
 import { DeliveryDetails } from '../pages/DeliveryDetails';
 import {userAddressData, IUserAddressData} from '../data/userAddressData';
+import { PaymentPage } from '../pages/PaymentPage';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -15,6 +16,7 @@ test('New User Full Journey', async ({ page }) => {
   const signUp = new SignUp(page);
   const signIn = new SignIn(page);
   const deliveryDetails = new DeliveryDetails(page);
+  const payment = new PaymentPage(page);
 
   // await page.pause();
 
@@ -58,6 +60,11 @@ test('New User Full Journey', async ({ page }) => {
   await deliveryDetails.continueToPayment();
 
   await page.pause();
+
+  await payment.applyDiscountCode();
+
+  await page.pause();
+
 
 
 
