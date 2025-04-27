@@ -7,6 +7,8 @@ export class PaymentPage {
   private applyDiscountButton: Locator;
   private discountCode: Locator;
   private discountActivatedText: Locator;
+  private totalPrice: Locator;
+  private totalPriceWithDiscount: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +21,8 @@ export class PaymentPage {
 
     this.discountCode = this.iFrame.locator('[data-qa="discount-code"]');
     this.discountActivatedText = this.page.locator(`[data-qa="discount-active-message"]`);
+    this.totalPrice = this.page.locator(`[data-qa="total-value"]`);
+    this.totalPriceWithDiscount = this.page.locator(`[data-qa="total-with-discount-value"]`);
   }
 
   async applyDiscountCode(): Promise<void> {
@@ -28,16 +32,19 @@ export class PaymentPage {
     await this.discountCodeInput.waitFor({ state: 'visible' });
 
 
-    // await this.discountCodeInput.focus()
-    // await this.page.keyboard.type(codeText, {delay: 500});
-
     const trimmedCodeText = codeText?.trim() || '';
-    await this.discountCodeInput.fill(trimmedCodeText);
-    
-    
+    await this.discountCodeInput.focus()
+    await this.page.keyboard.type(trimmedCodeText, {delay: 500});
+
+    expect(await this.totalPriceWithDiscount.isVisible()).toBeFalsy();
+
     await this.applyDiscountButton.click();
     this.page.waitForTimeout(1000);
-    await this.discountActivatedText.waitFor({ state: 'visible' });
     expect (await this.discountActivatedText.textContent()).toBe('Discount activated!');
+    expect(await this.totalPriceWithDiscount.isVisible()).toBeTruthy();
+    const totalPrice = +((await this.totalPrice.textContent()).replace('$', '') || 0);
+    const totalPriceWithDiscount = +((await this.totalPriceWithDiscount.textContent()).replace('$','') || 0);
+
+    expect(totalPriceWithDiscount).toBeLessThan(totalPrice);
   }
 }
