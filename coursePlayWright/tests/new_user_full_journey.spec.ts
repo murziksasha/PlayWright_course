@@ -8,6 +8,7 @@ import { SignIn } from '../pages/SignIn';
 import { DeliveryDetails } from '../pages/DeliveryDetails';
 import {userAddressData, IUserAddressData} from '../data/userAddressData';
 import { PaymentPage } from '../pages/PaymentPage';
+import { paymentsDetails } from '../data/paymentDetails';
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -59,11 +60,11 @@ test('New User Full Journey', async ({ page }) => {
   await deliveryDetails.saveDetails();
   await deliveryDetails.continueToPayment();
 
-  await page.pause();
-
   await payment.applyDiscountCode();
 
   await page.pause();
+
+  await payment.fillPaymentForm(paymentsDetails);
 
 
 
