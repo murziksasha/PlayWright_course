@@ -62,9 +62,9 @@ test('New User Full Journey', async ({ page }) => {
 
   await payment.applyDiscountCode();
 
-  await page.pause();
-
+  
   await payment.fillPaymentForm(paymentsDetails);
+  await page.pause();
 
 
 

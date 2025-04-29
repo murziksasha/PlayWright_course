@@ -30,11 +30,6 @@ export class PaymentPage {
     this.totalPrice = this.page.locator(`[data-qa="total-value"]`);
     this.totalPriceWithDiscount = this.page.locator(`[data-qa="total-with-discount-value"]`);
 
-    /*   private cardOwnerInput: Locator;
-  private cardNumberInput: Locator;
-  private validUntilInput: Locator;
-  private cvcInput: Locator;
-  private payButton: Locator; */
   this.cardOwnerInput = this.page.getByRole('textbox', { name: 'Credit card owner' });
   this.cardNumberInput = this.page.getByRole('textbox', { name: 'Credit card number' });
     this.validUntilInput = this.page.getByRole('textbox', { name: 'Valid until' });
@@ -66,22 +61,29 @@ export class PaymentPage {
     expect(totalPriceWithDiscount).toBeLessThan(totalPrice);
   }
 
-  async fillPaymentForm({creditCardOwner, creditCardNumber, validUntil, creditCardCVC}: IPaymentsDetails): Promise<void> {
+  async fillPaymentForm({ creditCardOwner, creditCardNumber, validUntil, creditCardCVC }: IPaymentsDetails): Promise<void> {
     await this.cardOwnerInput.waitFor({ state: 'visible' });
     await this.cardNumberInput.waitFor({ state: 'visible' });
     await this.validUntilInput.waitFor({ state: 'visible' });
     await this.cvcInput.waitFor({ state: 'visible' });
+  
     await this.cardOwnerInput.fill(creditCardOwner);
     await this.cardNumberInput.fill(creditCardNumber.toString());
     await this.validUntilInput.fill(validUntil);
     await this.cvcInput.fill(creditCardCVC.toString());
-  }
-  async clickPayButton(): Promise<void> {
+  
     await this.payButton.waitFor({ state: 'visible' });
-    await this.payButton.click();
-    await this.page.waitForTimeout(1000);
-    alert('Payment was successful!');
-    // await this.page.waitForURL('https://www.saucedemo.com/checkout-complete.html');
+  
+    // Better: wait for navigation triggered by click
+    await Promise.all([
+      this.page.waitForURL('**/thank-you', { timeout: 3000 }), // Waits until URL changes
+      this.payButton.click(), // Click triggers navigation
+    ]);
+  
+    // Optionally you can verify success text on the Thank You page
+    await expect(this.page).toHaveURL(/thank-you/);
+    await expect(this.page.locator('h1')).toHaveText('Thank you for shopping with us!');
   }
+  
 
 }
