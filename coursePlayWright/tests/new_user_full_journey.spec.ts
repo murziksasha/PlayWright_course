@@ -6,7 +6,7 @@ import { SignUp } from '../pages/SignUp';
 import { v4 as uuid } from 'uuid';
 import { SignIn } from '../pages/SignIn';
 import { DeliveryDetails } from '../pages/DeliveryDetails';
-import {userAddressData, IUserAddressData} from '../data/userAddressData';
+import {userAddressData} from '../data/userAddressData';
 import { PaymentPage } from '../pages/PaymentPage';
 import { paymentsDetails } from '../data/paymentDetails';
 
@@ -64,6 +64,7 @@ test('New User Full Journey', async ({ page }) => {
 
   
   await payment.fillPaymentForm(paymentsDetails);
+  await payment.completePayment();
   await page.pause();
 
 

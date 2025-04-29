@@ -72,6 +72,9 @@ export class PaymentPage {
     await this.validUntilInput.fill(validUntil);
     await this.cvcInput.fill(creditCardCVC.toString());
   
+  }
+
+  async completePayment(): Promise<void> {
     await this.payButton.waitFor({ state: 'visible' });
   
     // Better: wait for navigation triggered by click
@@ -84,6 +87,7 @@ export class PaymentPage {
     await expect(this.page).toHaveURL(/thank-you/);
     await expect(this.page.locator('h1')).toHaveText('Thank you for shopping with us!');
   }
+
   
 
 }
