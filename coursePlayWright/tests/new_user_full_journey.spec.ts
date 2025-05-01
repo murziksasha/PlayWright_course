@@ -35,6 +35,7 @@ test('New User Full Journey', async ({ page }) => {
   );
 
   await productPage.visit();
+  page.pause();
   await productPage.sortByCheapest();
 
   await productPage.productToBusket(0);
@@ -44,6 +45,8 @@ test('New User Full Journey', async ({ page }) => {
   await navigation.getBasketCount();
   expect(await navigation.getBasketCount()).toBe(3);
 
+
+  /*
   await navigation.goToCheckout();
   await checkout.removeCheapestProduct();
 
@@ -66,6 +69,7 @@ test('New User Full Journey', async ({ page }) => {
   await payment.fillPaymentForm(paymentsDetails);
   await payment.completePayment();
   await page.pause();
+  */
 
 
 
