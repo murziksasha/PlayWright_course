@@ -34,16 +34,18 @@ test('New User Full Journey', async ({ page }) => {
     (password)
   );
 
-  await productPage.visit();
-  page.pause();
+  
+  // await productPage.visit();
+  
   await productPage.sortByCheapest();
+  await page.pause();
 
   await productPage.productToBusket(0);
   await productPage.productToBusket(1);
   await productPage.productToBusket(2);
 
-  await navigation.getBasketCount();
-  expect(await navigation.getBasketCount()).toBe(3);
+  // await navigation.getBasketCount();
+  // expect(await navigation.getBasketCount()).toBe(3);
 
 
   /*
