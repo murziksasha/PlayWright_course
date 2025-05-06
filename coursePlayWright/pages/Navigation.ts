@@ -1,6 +1,11 @@
 import { Locator, Page } from '@playwright/test';
 import { isDisplayMobile } from '../utils/isDisplayViewport';
 
+// if (isDisplayMobile(this.page)) {
+//   await this.burgerMenuMobile.waitFor();
+//   await this.burgerMenuMobile.click();
+// }
+
 export class Navigation {
   private page: Page;
   private homeButton: Locator;
@@ -17,9 +22,7 @@ export class Navigation {
       `[data-qa="header-basket-count"]`
     );
     this.checkoutLink = page.getByRole('link', { name: 'Checkout' });
-    this.burgerMenuMobile = page.locator(
-      `[data-qa="burger-button"]`
-    );
+    this.burgerMenuMobile = page.locator(`[data-qa="burger-button"]`);
   }
 
   visit = async (): Promise<void> => {
@@ -27,10 +30,6 @@ export class Navigation {
   };
 
   getBasketCount = async (): Promise<number> => {
-    if (isDisplayMobile(this.page)) {
-      await this.burgerMenuMobile.waitFor();
-      await this.burgerMenuMobile.click();
-    }
     await this.basketCounter.waitFor();
     return parseInt(await this.basketCounter.innerText());
   };
@@ -50,6 +49,11 @@ export class Navigation {
   };
 
   goToCheckout = async (): Promise<void> => {
+    if (isDisplayMobile(this.page)) {
+      await this.burgerMenuMobile.waitFor();
+      await this.burgerMenuMobile.click();
+    }
+
     const checkoutLink = this.checkoutLink;
     await checkoutLink.waitFor();
     await checkoutLink.click();

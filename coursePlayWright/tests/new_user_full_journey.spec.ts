@@ -9,6 +9,14 @@ import { DeliveryDetails } from '../pages/DeliveryDetails';
 import {userAddressData} from '../data/userAddressData';
 import { PaymentPage } from '../pages/PaymentPage';
 import { paymentsDetails } from '../data/paymentDetails';
+import { isDisplayMobile } from '../utils/isDisplayViewport';
+
+
+
+// if (isDisplayMobile(this.page)) {
+//   await this.burgerMenuMobile.waitFor();
+//   await this.burgerMenuMobile.click();
+// } 
 
 test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
@@ -34,27 +42,39 @@ test('New User Full Journey', async ({ page }) => {
     (password)
   );
 
-  await productPage.visit();
-  page.pause();
+  
+  // await productPage.visit();
+  
   await productPage.sortByCheapest();
-
+  
   await productPage.productToBusket(0);
   await productPage.productToBusket(1);
   await productPage.productToBusket(2);
+  
+  if(!isDisplayMobile(page)) {
+    await navigation.getBasketCount();
+    expect(await navigation.getBasketCount()).toBe(3);
+  }
+  
+  
+  
 
-  await navigation.getBasketCount();
-  expect(await navigation.getBasketCount()).toBe(3);
 
-
-  /*
   await navigation.goToCheckout();
   await checkout.removeCheapestProduct();
 
+  await page.pause();
+
+
+
+ 
 
   await checkout.continuToCheckout();
   await page.waitForTimeout(1000);
+  if(!isDisplayMobile(page)) {
   await signIn.login(email, password);
   await page.waitForTimeout(1000);
+  }
 
 
 
@@ -65,11 +85,9 @@ test('New User Full Journey', async ({ page }) => {
 
   await payment.applyDiscountCode();
 
-  
   await payment.fillPaymentForm(paymentsDetails);
   await payment.completePayment();
   await page.pause();
-  */
 
 
 

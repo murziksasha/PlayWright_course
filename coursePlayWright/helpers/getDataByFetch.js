@@ -1,5 +1,5 @@
 async function fetchData() {
-  const response = await fetch('http://localhost:2221/', {
+  const response = await fetch('http://localhost:2221/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
