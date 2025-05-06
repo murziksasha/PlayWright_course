@@ -18,7 +18,7 @@ import { isDisplayMobile } from '../utils/isDisplayViewport';
 //   await this.burgerMenuMobile.click();
 // } 
 
-test.skip('New User Full Journey', async ({ page }) => {
+test('New User Full Journey', async ({ page }) => {
   const productPage = new ProductPage(page);
   const navigation = new Navigation(page);
   const checkout = new Checkout(page);
