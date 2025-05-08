@@ -1,6 +1,6 @@
 import { test} from '@playwright/test';
 import { MyAccountPage } from '../pages/MyAccountPage';
-import { getLoginToken } from '../api-calls/GetLoginToken';
+import { getLoginToken } from '../api-calls/getLoginToken';
 
 
 test.only('My Account using cookie injection', async ({page}) => {
@@ -9,7 +9,11 @@ test.only('My Account using cookie injection', async ({page}) => {
 
   const myAccountPage = new MyAccountPage(page);
   await myAccountPage.visit();
+  await page.evaluate((loginTokenInsideBrowser) => {
+    document.cookie = `token=${loginTokenInsideBrowser}; path=/; domain=localhost`;
+  }, [loginToken]);
+  await myAccountPage.visit();
+  await myAccountPage.waitForPageHeading();
 
-  console.log('Test is running...');
   await page.pause();
 })

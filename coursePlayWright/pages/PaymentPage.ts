@@ -55,8 +55,10 @@ export class PaymentPage {
     this.page.waitForTimeout(1000);
     expect (await this.discountActivatedText.textContent()).toBe('Discount activated!');
     expect(await this.totalPriceWithDiscount.isVisible()).toBeTruthy();
-    const totalPrice = +((await this.totalPrice.textContent()).replace('$', '') || 0);
-    const totalPriceWithDiscount = +((await this.totalPriceWithDiscount.textContent()).replace('$','') || 0);
+    const totalPriceText = await this.totalPrice.textContent();
+    const totalPrice = +(totalPriceText ? totalPriceText.replace('$', '') : 0);
+    const totalPriceWithDiscountText = await this.totalPriceWithDiscount.textContent();
+    const totalPriceWithDiscount = +(totalPriceWithDiscountText ? totalPriceWithDiscountText.replace('$', '') : 0);
 
     expect(totalPriceWithDiscount).toBeLessThan(totalPrice);
   }
