@@ -1,10 +1,11 @@
-import { test} from '@playwright/test';
+import { test } from '@playwright/test';
 import { MyAccountPage } from '../pages/MyAccountPage';
 import { getLoginToken } from '../api-calls/getLoginToken';
+import { adminUserData, IUserAdminUserData } from '../data/userLoginData';
 
 
 test.only('My Account using cookie injection', async ({page}) => {
-  const loginToken = await getLoginToken(page);
+  const loginToken = await getLoginToken(page, adminUserData);
   console.log('Login token:', loginToken);
 
   const myAccountPage = new MyAccountPage(page);
